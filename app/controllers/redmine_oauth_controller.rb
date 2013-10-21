@@ -27,7 +27,7 @@ class RedmineOauthController < AccountController
       emails = JSON.parse(emails.body)
       verified = emails.select { |e| e['verified'] }.map { |v| v['email'] }
       unverified = emails.select { |e| !e['verified'] }.map { |v| v['email'] }
-      primary = emails.select { |e| !e['primary'] }.first['email']
+      primary = emails.select { |e| e['primary'] }.first.try(:[], 'email')
 
       if (user = User.where(:mail => verified).first)
         checked_try_to_login user.mail, user_info
