@@ -64,8 +64,14 @@ class RedmineOauthController < AccountController
     session.delete(:back_url)
     @user = user
     if @user.new_record?
+      # Retrieve self-registration setting
+      self_registration = settings[:github_self_registration]
+      if self_registration == '-1'
+        self_registration = Setting.self_registration || '0'
+      end
+
       # Self-registration off
-      redirect_to(home_url) && return unless Setting.self_registration?
+      redirect_to(home_url) && return unless self_registration != '0'
       # Create on the fly
       params = {}
       params["firstname"], params["lastname"] = info["name"].split(' ') unless info['name'].nil?
@@ -79,7 +85,7 @@ class RedmineOauthController < AccountController
       @user.random_password
       @user.register
 
-      case Setting.self_registration
+      case self_registration
       when '1'
         register_by_email_activation(@user) do
           onthefly_creation_failed(@user)
