@@ -24,7 +24,7 @@ Update gems and restart rails server.
 To make possible to authenticate via Github you must first to register application in Github
 
 * Go to the [registration](https://github.com/settings/applications/new) link.
-* When registering specify application name, for example, Redmine Oauth Githu.
+* When registering specify application name, for example, Redmine Oauth Github.
 * Homepage URL is the url of your redmine installation
 * Callback URL is the same url with "/oauth/github/callback" appended, e.g. "http://example.net/oauth/github/callback"
 * Press the button "Register application".
