@@ -1,16 +1,27 @@
 <p>
-  <label>Client ID:</label>
+  <%= content_tag(:label, l(:label_oauth_authentication)) %>
+  <%= check_box_tag "settings[github_oauth_authentication]", true, @settings[:github_oauth_authentication] %>
+</p>
+<p>
+  <%= content_tag(:label, l(:label_client_id)) %>
   <%= text_field_tag 'settings[client_id]', @settings[:client_id] %>
 </p>
 <p>
-  <label>Client Secret:</label>
+  <%= content_tag(:label, l(:label_client_secret)) %>
   <%= text_field_tag 'settings[client_secret]', @settings[:client_secret] %>
 </p>
 <p>
-  <label>Available domains</label>
-  <%= text_area_tag "settings[allowed_domains]", @settings[:allowed_domains], :rows => 5 %>
+  <%= content_tag(:label, l(:setting_self_registration)) %>
+  <%= select_tag 'settings[github_self_registration]',
+                  options_for_select([
+                      [l(:label_use_global_settings), "-1"],
+                      [l(:label_disabled), "0"],
+                      [l(:label_registration_activation_by_email), "1"],
+                      [l(:label_registration_manual_activation), "2"],
+                      [l(:label_registration_automatic_activation), "3"]
+                    ], @settings[:github_self_registration]) %>
 </p>
 <p>
-  <label>Oauth authentication:</label>
-  <%= check_box_tag "settings[github_oauth_authentication]", true, @settings[:github_oauth_authentication] %>
+  <%= content_tag(:label, l(:label_available_domains)) %>
+  <%= text_area_tag "settings[allowed_domains]", @settings[:allowed_domains], :rows => 5 %>
 </p>

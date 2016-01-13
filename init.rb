@@ -13,6 +13,7 @@ Redmine::Plugin.register :redmine_omniauth_github do
     :client_id => "",
     :client_secret => "",
     :github_oauth_autentication => false,
-    :allowed_domains => ""
+    :allowed_domains => "",
+    :github_self_registration => "-1"
   }, :partial => 'settings/github_settings'
 end
