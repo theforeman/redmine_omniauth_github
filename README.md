@@ -8,6 +8,7 @@ It was more than inspired by redmine_omniauth_google see https://github.com/twin
 It has been tested and/or should work with the following Redmine versions:
 
 * 3.x (tested on 3.1.x and 3.2.x)
+* 2.6.x
 
 ### Installation:
 
@@ -37,10 +38,10 @@ To make plugin to work properly
 
 * Login as administrator. In top menu select "Administration". Choose menu item Plugins. In plugins list choose "Redmine Omniauth Github plugin". Press "Configure".
 * Fill Сlient ID & Client Secret by corresponding values, obtained by Github.
-* Put the check "Oauth authentification", to make it possible to login through Github. Click Apply. Users can now to use apportunity to login via Github.
+* Put the check "Oauth authentification", to make it possible to login through Github. Click Apply. Users can now login via Github.
 
 Additionaly
-* Setup value Autologin in Settings on tab Authentification
+* Setup value Autologin in Settings on tab Authentication
 
 ### Other options
 
