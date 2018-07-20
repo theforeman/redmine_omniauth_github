@@ -5,7 +5,7 @@ class RedmineOauthController < AccountController
   include Helpers::MailHelper
   include Helpers::Checker
   def oauth_github
-    if Setting.plugin_redmine_omniauth_github[:github_oauth_authentication]
+    if Setting.plugin_redmine_omniauth_github['github_oauth_authentication']
       session[:back_url] = params[:back_url]
       redirect_to oauth_client.auth_code.authorize_url(:redirect_uri => oauth_github_callback_url, :scope => scopes)
     else
@@ -77,7 +77,7 @@ class RedmineOauthController < AccountController
     @user = user
     if @user.new_record?
       # Retrieve self-registration setting
-      self_registration = settings[:github_self_registration]
+      self_registration = settings['github_self_registration']
       if self_registration == '-1'
         self_registration = Setting.self_registration || '0'
       end
@@ -123,7 +123,7 @@ class RedmineOauthController < AccountController
   end
 
   def oauth_client
-    @client ||= OAuth2::Client.new(settings[:client_id], settings[:client_secret],
+    @client ||= OAuth2::Client.new(settings['client_id'], settings['client_secret'],
       :site => 'https://github.com',
       :authorize_url => '/login/oauth/authorize',
       :token_url => '/login/oauth/access_token')
