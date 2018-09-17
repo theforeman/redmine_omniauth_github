@@ -51,12 +51,12 @@ class RedmineOauthController < AccountController
         checked_try_to_login user.mail, user_info, user
       else
         if Redmine::VERSION.to_s.starts_with?('2.')
-          unverified_found = User.find_by_mail(unverified).nil? && verified.include?(primary)
+          unverified_found = User.find_by_mail(unverified)
         else
           unverified_found = User.joins(:email_addresses).where(:email_addresses => { :address => unverified }).first
         end
 
-        if unverified_found
+        if unverified_found.nil? && verified.include?(primary)
           user = User.new
           checked_try_to_login primary, user_info, user
         else
