@@ -15,7 +15,7 @@ class RedmineOauthController < AccountController
 
   def oauth_github_callback
     if params[:error]
-      flash[:error] = l(:notice_github_access_denied)
+      flash[:error] = "Error: #{params[:error_description]} (#{params[:error]})"
       redirect_to signin_path
     else
       token = nil
