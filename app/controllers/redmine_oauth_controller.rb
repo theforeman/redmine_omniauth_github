@@ -4,6 +4,11 @@ require 'json'
 class RedmineOauthController < AccountController
   include Helpers::MailHelper
   include Helpers::Checker
+
+  def default_url_options(options={})
+    {:protocol => Setting[:protocol]}
+  end 
+
   def oauth_github
     if Setting.plugin_redmine_omniauth_github['github_oauth_authentication']
       session[:back_url] = params[:back_url]
