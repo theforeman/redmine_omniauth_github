@@ -57,11 +57,9 @@ class RedmineOauthController < AccountController
         end
 
         if unverified_found
-          user = User.new
-          checked_try_to_login primary, user_info, user
+          checked_try_to_login primary, user_info, unverified_found
         else
-          flash[:error] = l(:notice_no_verified_email_we_could_use)
-          redirect_to signin_path
+          checked_try_to_login primary, user_info, User.new
         end
       end
     end
