@@ -18,7 +18,7 @@ class RedmineOauthControllerTest < ActionController::TestCase
 
   #creates a new user with the credentials listed in the options and fills in the missing data by default data
   def new_user options = {}
-    User.where(@default_user_credentials.merge(options)).delete_all
+    User.where(@default_user_credentials.merge(options).except(:mail)).delete_all
     user = User.new @default_user_credentials.merge(options)
     user.login = options[:login] || 'cool_user'
     user
