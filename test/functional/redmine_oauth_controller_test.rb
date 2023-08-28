@@ -11,8 +11,9 @@ class RedmineOauthControllerTest < ActionController::TestCase
                               :given_name => 'Cool',
                               :family_name => 'User',
                               :email => 'user@somedomain.com'}
+    @default_emails_response_body = [{:email => @default_response_body[:email], :verified => true, :primary => true}]
+    @unverified_emails_response_body = [{:email => @default_response_body[:email], :verified => false, :primary => true}]
     User.current = nil
-    OAuth2::AccessToken.any_instance.stubs(:get => OAuth2::Response.new(nil))
     OAuth2::Client.any_instance.stubs(:get_token => OAuth2::AccessToken.new('code', 'redirect_uri'))
   end
 
@@ -26,7 +27,16 @@ class RedmineOauthControllerTest < ActionController::TestCase
 
   #creates a new user with the credentials listed in the options and fills in the missing data by default data
   def set_response_body_stub options = {}
-    OAuth2::Response.any_instance.stubs(:body => @default_response_body.merge(options).to_json)
+    user_response = OAuth2::Response.new(nil)
+    user_response.stubs(:body => @default_response_body.merge(options).to_json)
+    emails_response = OAuth2::Response.new(nil)
+    if options.fetch(:verified_email, nil) == false
+      emails_response.stubs(:body => @unverified_emails_response_body.to_json)
+    else
+      emails_response.stubs(:body => @default_emails_response_body.to_json)
+    end
+    OAuth2::AccessToken.any_instance.stubs(:get).with('https://api.github.com/user').returns(user_response)
+    OAuth2::AccessToken.any_instance.stubs(:get).with('https://api.github.com/user/emails', :headers => {"Accept" => "application/vnd.github.v3.full+json"}).returns(emails_response)
   end
 
   def test_oauth_github_with_enabled_oauth_authentification
