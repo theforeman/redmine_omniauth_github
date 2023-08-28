@@ -1,0 +1,52 @@
+---
+name: CI
+
+on:
+  pull_request:
+  push:
+
+
+concurrency:
+  group: ${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  ruby:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - '2.7'
+        redmine:
+          - '5.0-stable'
+          - 'master'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'redmine/redmine'
+          ref: ${{ matrix.redmine }}
+      - uses: actions/checkout@v3
+        with:
+          path: plugins/redmine_omniauth_github
+      - name: Setup Database
+        run: "printf 'test:\n  adapter: sqlite3\n  database: db/redmine.sqlite3' > config/database.yml"
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Archive Gemfile.lock
+        uses: actions/upload-artifact@v3
+        with:
+          name: Gemfile.lock
+          path: Gemfile.lock
+      - name: Setup redmine
+        run: bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate redmine:load_default_data
+        env:
+          RAILS_ENV: test
+          REDMINE_LANG: en
+      - name: Run tests
+        run: bundle exec rake redmine:plugins:test NAME=redmine_omniauth_github
+        env:
+          RAILS_ENV: test
