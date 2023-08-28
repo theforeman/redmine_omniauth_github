@@ -12,7 +12,6 @@ class RedmineOauthControllerTest < ActionController::TestCase
                               :family_name => 'User',
                               :email => 'user@somedomain.com'}
     User.current = nil
-    Setting.openid = '1'
     OAuth2::AccessToken.any_instance.stubs(:get => OAuth2::Response.new(nil))
     OAuth2::Client.any_instance.stubs(:get_token => OAuth2::AccessToken.new('code', 'redirect_uri'))
   end
