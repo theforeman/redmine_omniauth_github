@@ -8,7 +8,7 @@ Redmine::Plugin.register :redmine_omniauth_github do
   version '0.0.4'
   url 'https://github.com/theforeman/redmine_omniauth_github'
   author_url 'https://github.com/ares'
-  requires_redmine :version_or_higher => '3.4'
+  requires_redmine :version_or_higher => '4.2'
 
   settings :default => {
     'client_id' => "",
