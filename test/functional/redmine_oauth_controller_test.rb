@@ -6,10 +6,8 @@ class RedmineOauthControllerTest < ActionController::TestCase
     @default_user_credentials = { :firstname => 'Cool',
                                   :lastname => 'User',
                                   :mail => 'user@somedomain.com'}
-    @default_response_body = {:verified_email => true,
-                              :name => 'Cool User',
-                              :given_name => 'Cool',
-                              :family_name => 'User',
+    @default_response_body = {:name => 'Cool User',
+                              :login => 'cooluser',
                               :email => 'user@somedomain.com'}
     @default_emails_response_body = [{:email => @default_response_body[:email], :verified => true, :primary => true}]
     @unverified_emails_response_body = [{:email => @default_response_body[:email], :verified => false, :primary => true}]
@@ -63,17 +61,17 @@ class RedmineOauthControllerTest < ActionController::TestCase
     assert_redirected_to :controller => 'my', :action => 'page'
   end
 
-  def test_oauth_github_callback_for_new_user_with_valid_credentials_and_sefregistration_enabled
+  def test_oauth_github_callback_for_new_user_with_valid_credentials_and_selfregistration_enabled
     Setting.self_registration = '3'
     set_response_body_stub
     get :oauth_github_callback
     assert_redirected_to :controller => 'my', :action  => 'account'
     user = User.find_by_mail(@default_response_body[:email])
     assert_equal user.mail, @default_response_body[:email]
-    assert_equal user.login, parse_email(@default_response_body[:email])[:login]
+    assert_equal user.login, @default_response_body[:login]
   end
 
-  def test_oauth_github_callback_for_new_user_with_valid_credentials_and_sefregistration_disabled
+  def test_oauth_github_callback_for_new_user_with_valid_credentials_and_selfregistration_disabled
     Setting.self_registration = '2'
     set_response_body_stub
     get :oauth_github_callback
