@@ -38,9 +38,10 @@ class RedmineOauthControllerTest < ActionController::TestCase
   end
 
   def test_oauth_github_with_disabled_oauth_authentification
-    Setting.plugin_redmine_omniauth_github[:oauth_authentification] = nil
-    get :oauth_github
-    assert_redirected_to signin_path
+    with_settings plugin_redmine_omniauth_github: { 'oauth_authentification' => nil } do
+      get :oauth_github
+      assert_redirected_to signin_path
+    end
   end
 
   def test_oauth_github_callback_for_existing_non_active_user
@@ -107,17 +108,18 @@ class RedmineOauthControllerTest < ActionController::TestCase
   end
 
   def test_oauth_github_callback_with_not_allowed_email_domain
-    Setting.plugin_redmine_omniauth_github[:allowed_domains] = "twinslash.com"
-    set_response_body_stub
-    get :oauth_github_callback
-    assert_redirected_to :signin
+    with_settings plugin_redmine_omniauth_github: { 'allowed_domains' => "twinslash.com", 'github_self_registration' => '3' } do
+      set_response_body_stub
+      get :oauth_github_callback
+      assert_redirected_to :signin
+    end
   end
 
   def test_oauth_github_callback_with_allowed_email_domain
-    Setting.self_registration = '3'
-    Setting.plugin_redmine_omniauth_github[:allowed_domains] = parse_email(@default_response_body[:email])[:domain]
-    set_response_body_stub
-    get :oauth_github_callback
-    assert_redirected_to :controller => 'my', :action => 'account'
+    with_settings plugin_redmine_omniauth_github: { 'allowed_domains' => parse_email(@default_response_body[:email])[:domain], 'github_self_registration' => '3' } do
+      set_response_body_stub
+      get :oauth_github_callback
+      assert_redirected_to :controller => 'my', :action => 'account'
+    end
   end
 end
