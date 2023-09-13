@@ -7,8 +7,8 @@ It was more than inspired by redmine_omniauth_google see https://github.com/twin
 
 It has been tested and/or should work with the following Redmine versions:
 
-* 3.x (tested on 3.1.x and 3.2.x)
-* 2.6.x
+* 4.2
+* 5.0
 
 ### Installation:
 
