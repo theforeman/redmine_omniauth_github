@@ -41,20 +41,12 @@ class RedmineOauthController < AccountController
       unverified = emails.select { |e| !e['verified'] }.map { |v| v['email'] }
       primary = emails.select { |e| e['primary'] }.first.try(:[], 'email')
 
-      if Redmine::VERSION.to_s.starts_with?('2.')
-        user = User.where(:mail => verified).first
-      else
-        user = User.joins(:email_addresses).where(:email_addresses => { :address => verified }).first
-      end
+      user = User.joins(:email_addresses).where(:email_addresses => { :address => verified }).first
 
       if user
         checked_try_to_login user.mail, user_info, user
       else
-        if Redmine::VERSION.to_s.starts_with?('2.')
-          unverified_found = User.find_by_mail(unverified)
-        else
-          unverified_found = User.joins(:email_addresses).where(:email_addresses => { :address => unverified }).first
-        end
+        unverified_found = User.joins(:email_addresses).where(:email_addresses => { :address => unverified }).first
 
         if unverified_found.nil? && verified.include?(primary)
           user = User.new
