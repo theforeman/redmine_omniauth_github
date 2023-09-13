@@ -39,10 +39,10 @@ class RedmineOauthControllerTest < ActionController::TestCase
     OAuth2::AccessToken.any_instance.stubs(:get).with('https://api.github.com/user/emails', :headers => {"Accept" => "application/vnd.github.v3.full+json"}).returns(emails_response)
   end
 
-  def test_oauth_github_with_enabled_oauth_authentification
+  def test_oauth_github_with_disabled_oauth_authentification
     Setting.plugin_redmine_omniauth_github[:oauth_authentification] = nil
     get :oauth_github
-    assert_response 404
+    assert_redirected_to signin_path
   end
 
   def test_oauth_github_callback_for_existing_non_active_user
