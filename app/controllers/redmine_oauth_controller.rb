@@ -14,7 +14,7 @@ class RedmineOauthController < AccountController
       session[:back_url] = params[:back_url]
       redirect_to oauth_client.auth_code.authorize_url(:redirect_uri => oauth_github_callback_url, :scope => scopes)
     else
-      password_authentication
+      redirect_to signin_path
     end
   end
 
