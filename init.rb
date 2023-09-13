@@ -6,7 +6,7 @@ Redmine::Plugin.register :redmine_omniauth_github do
   author 'Marek Hulan'
   description 'This is a plugin for Redmine registration through github'
   version '0.0.4'
-  url 'https://github.com/ares/redmine_omniauth_github'
+  url 'https://github.com/theforeman/redmine_omniauth_github'
   author_url 'https://github.com/ares'
   requires_redmine :version_or_higher => '3.4'
 
