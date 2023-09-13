@@ -15,7 +15,7 @@ It has been tested and/or should work with the following Redmine versions:
 Choose folder /plugins, make command
 
 ```console
-git clone https://github.com/ares/redmine_omniauth_github.git
+git clone https://github.com/theforeman/redmine_omniauth_github.git
 ```
 
 Update gems and restart rails server.
