@@ -59,3 +59,8 @@ jobs:
         run: bundle exec rake redmine:plugins:test NAME=redmine_omniauth_github
         env:
           RAILS_ENV: test
+      - name: Run zeitwerk:check
+        run: bundle exec rake zeitwerk:check
+        if: matrix.redmine != '4.2-stable'
+        env:
+          RAILS_ENV: test
