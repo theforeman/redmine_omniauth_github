@@ -23,10 +23,13 @@ jobs:
         redmine:
           - '5.0-stable'
           - '5.1-stable'
+          - '6.0-stable'
           - 'master'
         exclude:
           - ruby: '3.2'
             redmine: '5.0-stable'
+          - ruby: '3.0'
+            redmine: '6.0-stable'
     steps:
       - uses: actions/checkout@v4
         with:
