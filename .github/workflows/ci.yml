@@ -50,9 +50,9 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Archive Gemfile.lock
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: Gemfile.lock
+          name: Gemfile-${{ matrix.ruby }}-${{ matrix.redmine }}.lock
           path: Gemfile.lock
       - name: Setup redmine
         run: bundle exec rake db:drop db:create db:migrate redmine:plugins:migrate redmine:load_default_data
