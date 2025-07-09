@@ -30,6 +30,10 @@ jobs:
             redmine: '5.0-stable'
           - ruby: '3.0'
             redmine: '6.0-stable'
+          - ruby: '3.0'
+            redmine: 'master'
+          - ruby: '3.1'
+            redmine: 'master'
     steps:
       - uses: actions/checkout@v4
         with:
