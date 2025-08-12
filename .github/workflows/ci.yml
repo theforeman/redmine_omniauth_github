@@ -35,11 +35,11 @@ jobs:
           - ruby: '3.1'
             redmine: 'master'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: 'redmine/redmine'
           ref: ${{ matrix.redmine }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           path: plugins/redmine_omniauth_github
       - name: Setup Database
