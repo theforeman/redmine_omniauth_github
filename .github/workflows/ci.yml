@@ -60,7 +60,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Archive Gemfile.lock
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: Gemfile-${{ matrix.ruby }}-${{ matrix.redmine }}.lock
           path: Gemfile.lock
